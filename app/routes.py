@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, jsonify
 from .crypto_utils import *
+import binascii
 
 main = Blueprint("main", __name__)
-keys = {}  # Global (for demo only)
+keys = {}
 
 @main.route("/")
 def index():
@@ -22,7 +23,10 @@ def kem_encrypt():
     ciphertext, plaintext = encrypt_message(keys["kem_pub"])
     keys["ciphertext"] = ciphertext
     keys["plaintext"] = plaintext
-    return jsonify({"ciphertext": ciphertext.hex(), "plaintext": plaintext.hex()})
+    return jsonify({
+        "ciphertext": ciphertext.hex(),
+        "plaintext_shared_secret": plaintext.hex()
+    })
 
 @main.route("/kem-decrypt", methods=["POST"])
 def kem_decrypt():
@@ -30,7 +34,10 @@ def kem_decrypt():
         return jsonify({"error": "Missing keys or ciphertext."}), 400
     recovered = decrypt_message(keys["kem_sec"], keys["ciphertext"])
     match = compare_digest(keys["plaintext"], recovered)
-    return jsonify({"recovered": recovered.hex(), "match": match})
+    return jsonify({
+        "recovered_shared_secret": recovered.hex(),
+        "match": match
+    })
 
 @main.route("/sig-keygen", methods=["POST"])
 def sig_keygen():
@@ -41,13 +48,20 @@ def sig_keygen():
 
 @main.route("/sign", methods=["POST"])
 def sign_msg():
-    msg = request.form.get("message", "").encode()
+    data = request.get_json()
+    msg = data.get("message", "").encode()
+    if "sig_sec" not in keys:
+        return jsonify({"error": "Generate signature keys first."}), 400
     signature = sign_message(keys["sig_sec"], msg)
     keys["signature"] = signature
+    keys["signed_msg"] = msg
     return jsonify({"signature": signature.hex()})
 
 @main.route("/verify", methods=["POST"])
 def verify_msg():
-    msg = request.form.get("message", "").encode()
+    data = request.get_json()
+    msg = data.get("message", "").encode()
+    if "sig_pub" not in keys or "signature" not in keys:
+        return jsonify({"error": "Generate keys and sign first."}), 400
     result = verify_signature(keys["sig_pub"], msg, keys["signature"])
     return jsonify({"valid": result})
