@@ -1,0 +1,46 @@
+{% extends "algo_template.html" %}
+
+{% block extra_css %}
+<style>
+    .card-header h5 {
+        margin-bottom: 0;
+    }
+    
+    .info-badge {
+        font-size: 0.8rem;
+        padding: 2px 8px;
+        margin-left: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{{ super() }}
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5>About Dilithium Signature</h5>
+            </div>
+            <div class="card-body">
+                <p>Dilithium is a lattice-based digital signature scheme that is one of the finalists in the NIST Post-Quantum Cryptography standardization process.</p>
+                
+                <h6>Key Features:</h6>
+                <ul>
+                    <li><strong>Security basis:</strong> Based on the hardness of the Module Learning With Errors (MLWE) problem</li>
+                    <li><strong>Performance:</strong> Offers a good balance between signature size, key size, and computational efficiency</li>
+                    <li><strong>Variants:</strong> Available in multiple security levels (Dilithium2, Dilithium3, Dilithium5)</li>
+                    <li><strong>Status:</strong> Selected by NIST for standardization</li>
+                </ul>
+                
+                <p>In this demo, we're using the Dilithium2 variant from the pqcrypto Python package.</p>
+                
+                <div class="alert alert-warning">
+                    <strong>Security Note:</strong> Like all cryptographic algorithms, Dilithium's security depends on proper implementation and parameter selection.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

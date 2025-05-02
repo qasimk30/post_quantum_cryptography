@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}PQCrypto - Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Post-Quantum Cryptography Demo</h1>
+        <p class="col-md-8 fs-4">This application demonstrates post-quantum cryptographic algorithms that are resistant to attacks from quantum computers.</p>
+        <hr class="my-4">
+        <p>Explore different post-quantum algorithms by clicking the buttons below:</p>
+        
+        <div class="row mt-4">
+          
+            <div class="col-md-6 mb-3">
+                <h3>Key Encapsulation Mechanisms (KEM)</h3>
+                <p>KEM algorithms are used to securely exchange encryption keys.</p>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Kyber</h5>
+                        <p class="card-text">A lattice-based KEM that is one of the primary NIST PQC standardization candidates.</p>
+                        <a href="/kyber" class="btn btn-primary">Try Kyber</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <h3>Digital Signature Algorithms</h3>
+            <p>Signature algorithms provide message authentication verification.</p>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dilithium</h5>
+                        <p class="card-text">A lattice-based signature scheme that provides strong security with relatively small key sizes.</p>
+                        <a href="/dilithium" class="btn btn-primary">Try Dilithium</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+{% endblock %}

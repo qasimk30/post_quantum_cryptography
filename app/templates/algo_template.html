@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}PQCrypto - {{ algo_name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>{{ algo_name }}</h1>
+        <p class="lead">
+            {% if algo_type == "KEM" %}
+            Key Encapsulation Mechanism for secure key exchange.
+            {% else %}
+            Digital Signature Algorithm for message authentication.
+            {% endif %}
+        </p>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Key Generation</h5>
+            </div>
+            <div class="card-body">
+                <button id="generate-keys" class="btn btn-success">Generate Key Pair</button>
+                <div class="mt-3">
+                    <div class="form-group">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="public-key">Public Key:</label>
+                        <textarea id="public-key" class="form-control" rows="3" readonly></textarea>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="private-key">Private Key:</label>
+                        <textarea id="private-key" class="form-control" rows="3" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        {% if algo_type == "KEM" %}
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Encapsulation</h5>
+            </div>
+            <div class="card-body">
+                <button id="encapsulate" class="btn btn-primary" disabled>Encapsulate</button>
+                <div class="mt-3">
+                    <div class="form-group">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="ciphertext">Ciphertext:</label>
+                        <textarea id="ciphertext" class="form-control" rows="3" readonly></textarea>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="shared-secret-enc">Shared Secret:</label>
+                        <textarea id="shared-secret-enc" class="form-control" rows="2" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">Decapsulation</h5>
+            </div>
+            <div class="card-body">
+                <button id="decapsulate" class="btn btn-primary" disabled>Decapsulate</button>
+                <div class="mt-3">
+                    <div class="form-group">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="shared-secret-dec">Shared Secret:</label>
+                        <textarea id="shared-secret-dec" class="form-control" rows="2" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Sign Message</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <label for="message-to-sign">Message:</label>
+                    <textarea id="message-to-sign" class="form-control" rows="3" placeholder="Enter a message to sign..."></textarea>
+                </div>
+                <button id="sign-message" class="btn btn-primary mt-2" disabled>Sign Message</button>
+                <div class="mt-3">
+                    <div class="form-group">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="signature">Signature:</label>
+                        <textarea id="signature" class="form-control" rows="3" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">Verify Signature</h5>
+            </div>
+            <div class="card-body">
+                <button id="verify-signature" class="btn btn-primary" disabled>Verify Signature</button>
+                <div class="mt-3">
+                    <div class="form-group">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="verification-result">Verification Result:</label>
+                        <div id="verification-result" class="alert" role="alert"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Variables to store cryptographic data
+        let publicKey = null;
+        let privateKey = null;
+        let ciphertext = null;
+        let sharedSecretEnc = null;
+        
+        // Function to get CSRF token
+        function getCsrfToken() {
+            return $('input[name="csrf_token"]').val();
+        }
+        
+        // Generate key pair
+        $('#generate-keys').click(function() {
+            $.ajax({
+                url: '/api/{{ algo_name.split()[0].lower() }}/generate',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRFToken': getCsrfToken()
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        publicKey = response.public_key;
+                        privateKey = response.private_key;
+                        
+                        $('#public-key').val(truncateString(publicKey));
+                        $('#private-key').val(truncateString(privateKey));
+                        
+                        {% if algo_type == "KEM" %}
+                        $('#encapsulate').prop('disabled', false);
+                        {% else %}
+                        $('#sign-message').prop('disabled', false);
+                        {% endif %}
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        });
+        
+        {% if algo_type == "KEM" %}
+        // Encapsulate
+        $('#encapsulate').click(function() {
+            $.ajax({
+                url: '/api/{{ algo_name.split()[0].lower() }}/encapsulate',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRFToken': getCsrfToken()
+                },
+                data: JSON.stringify({ 
+                    public_key: publicKey,
+                    csrf_token: getCsrfToken()
+                }),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        ciphertext = response.ciphertext;
+                        sharedSecretEnc = response.shared_secret;
+                        
+                        $('#ciphertext').val(truncateString(ciphertext));
+                        $('#shared-secret-enc').val(truncateString(sharedSecretEnc));
+                        
+                        $('#decapsulate').prop('disabled', false);
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        });
+        
+        // Decapsulate
+        $('#decapsulate').click(function() {
+            $.ajax({
+                url: '/api/{{ algo_name.split()[0].lower() }}/decapsulate',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRFToken': getCsrfToken()
+                },
+                data: JSON.stringify({
+                    private_key: privateKey,
+                    ciphertext: ciphertext,
+                    csrf_token: getCsrfToken()
+                }),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        const sharedSecretDec = response.shared_secret;
+                        
+                        $('#shared-secret-dec').val(truncateString(sharedSecretDec));
+                        
+                        // Verify that both shared secrets match
+                        if (sharedSecretDec === sharedSecretEnc) {
+                            $('#shared-secret-dec').addClass('bg-success text-white');
+                        } else {
+                            $('#shared-secret-dec').addClass('bg-danger text-white');
+                        }
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        });
+        {% else %}
+        // Sign message
+        $('#sign-message').click(function() {
+            const message = $('#message-to-sign').val();
+            
+            if (!message) {
+                alert('Please enter a message to sign.');
+                return;
+            }
+            
+            $.ajax({
+                url: '/api/{{ algo_name.split()[0].lower() }}/sign',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRFToken': getCsrfToken()
+                },
+                data: JSON.stringify({
+                    private_key: privateKey,
+                    message: message,
+                    csrf_token: getCsrfToken()
+                }),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        const signature = response.signature;
+                        $('#signature').val(truncateString(signature));
+                        $('#verify-signature').prop('disabled', false);
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        });
+        
+        // Verify signature
+        $('#verify-signature').click(function() {
+            const message = $('#message-to-sign').val();
+            
+            $.ajax({
+                url: '/api/{{ algo_name.split()[0].lower() }}/verify',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRFToken': getCsrfToken()
+                },
+                data: JSON.stringify({
+                    public_key: publicKey,
+                    message: message,
+                    signature: $('#signature').val(),
+                    csrf_token: getCsrfToken()
+                }),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        const verificationResult = $('#verification-result');
+                        verificationResult.removeClass('alert-success alert-danger');
+                        
+                        if (response.valid) {
+                            verificationResult.addClass('alert-success').text('Signature is VALID');
+                        } else {
+                            verificationResult.addClass('alert-danger').text('Signature is INVALID');
+                        }
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        });
+        {% endif %}
+        
+        // Helper function to truncate long strings for display
+        function truncateString(str) {
+            if (str.length > 100) {
+                return str.substring(0, 100) + '...';
+            }
+            return str;
+        }
+    });
+</script>
+{% endblock %}

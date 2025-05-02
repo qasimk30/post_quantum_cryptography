@@ -1,0 +1,86 @@
+/* Custom styles for PQCrypto Web App */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.jumbotron {
+    background-color: #e9ecef;
+    border-radius: 0.3rem;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.footer {
+    position: relative;
+    margin-top: 20px;
+    width: 100%;
+}
+
+textarea {
+    font-family: monospace;
+    font-size: 0.85rem;
+    resize: vertical;
+}
+
+textarea[readonly] {
+    background-color: #f8f9fa;
+    cursor: text;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.btn-success {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+/* Algorithm-specific cards */
+.card-header {
+    font-weight: 500;
+}
+
+/* Alert styles */
+.alert {
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.25rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+}

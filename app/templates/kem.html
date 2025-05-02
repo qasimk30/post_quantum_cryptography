@@ -1,0 +1,42 @@
+{% extends "algo_template.html" %}
+
+{% block extra_css %}
+<style>
+    .card-header h5 {
+        margin-bottom: 0;
+    }
+    
+    .info-badge {
+        font-size: 0.8rem;
+        padding: 2px 8px;
+        margin-left: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{{ super() }}
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5>About Kyber KEM</h5>
+            </div>
+            <div class="card-body">
+                <p>Kyber is a module lattice-based key encapsulation mechanism (KEM) that is one of the finalists in the NIST Post-Quantum Cryptography standardization process.</p>
+                
+                <h6>Key Features:</h6>
+                <ul>
+                    <li><strong>Security basis:</strong> Based on the hardness of the module learning with errors (MLWE) problem</li>
+                    <li><strong>Performance:</strong> Offers a good balance between key size, ciphertext size, and computational efficiency</li>
+                    <li><strong>Variants:</strong> Available in multiple security levels (Kyber512, Kyber768, Kyber1024)</li>
+                    <li><strong>Status:</strong> Selected by NIST for standardization</li>
+                </ul>
+                
+                <p>In this demo, we're using the Kyber512 variant from the pqcrypto Python package.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
