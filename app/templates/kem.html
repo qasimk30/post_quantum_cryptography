@@ -3,80 +3,435 @@
 {% block extra_css %}
 {{ super() }}
 <style>
-    .info-card {
-        border-radius: 20px;
+    /* Force override any white backgrounds and dark text */
+    * {
+        color: #e5f0ff !important;
+    }
+    
+    [style*="background-color: #fff"],
+    [style*="background-color: #fff"],
+    [style*="background-color: #ffffff"],
+    [style*="background-color: rgb(255, 255, 255)"],
+    [style*="background-color: rgba(255, 255, 255"],
+    [style*="background: blue"],
+    [style*="background: #fff"],
+    [style*="background: #ffffff"],
+    [style*="background: rgb(255, 255, 255)"],
+    [style*="background: rgba(255, 255, 255"] {
+        background-color: rgba(35, 55, 95, 0.7) !important;
+        border: 1px solid rgba(65, 90, 140, 0.8) !important;
+        border-radius: 12px !important;
+        padding: 1rem !important;
+    }
+    /* Modern Cyber Space Theme with Improved Colors and Contrast */
+    body {
+        background-color: #0f1a38; /* Richer blue-based background instead of blackish */
+        color: #f0f5ff; /* Brighter text for better readability */
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    .kyber-wrapper {
+        padding: 3rem 0;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        position: relative;
+        background: linear-gradient(120deg, #182b52 0%, #253868 100%); /* Much brighter blue gradient */
+        border-radius: 16px;
+        padding: 4rem 3rem;
+        margin-bottom: 4rem;
+        box-shadow: 0 20px 40px rgba(13, 25, 65, 0.5); /* Blueish shadow for depth */
         overflow: hidden;
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-        margin-bottom: 2.5rem;
     }
-
-    .info-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234361ee' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E"), /* Brighter pattern */
+            radial-gradient(circle at 20% 30%, rgba(99, 125, 255, 0.12) 0%, transparent 40%), /* Brighter glow */
+            radial-gradient(circle at 80% 70%, rgba(155, 105, 255, 0.12) 0%, transparent 40%); /* Brighter glow */
+        z-index: 0;
     }
-
-    .card-header {
-        background: linear-gradient(135deg, #34495e, #2c3e50);
-        color: white;
-        padding: 1rem 1.25rem;
-        border-bottom: none;
+    
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
     }
-
-    .info-badge {
+    
+    .neon-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        background: rgba(79, 90, 229, 0.15); /* More visible background */
+        border: 1px solid rgba(79, 90, 229, 0.5); /* More visible border */
+        color: #b9c2ff; /* Brighter text */
         font-size: 0.75rem;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: #17a2b8;
-        color: white;
+        font-weight: 700;
+        letter-spacing: 1.2px;
         text-transform: uppercase;
+        box-shadow: 0 0 20px rgba(79, 90, 229, 0.3); /* Stronger glow */
+        margin-bottom: 2rem;
+        backdrop-filter: blur(8px);
     }
-
-    .feature-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 1.2rem;
-    }
-
-    .feature-icon {
-        width: 40px;
-        height: 40px;
-        background: #ecf0f1;
-        color: #3498db;
+    
+    .neon-badge::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
+        background-color: #4f74e5; /* Slightly bluer */
+        margin-right: 10px;
+        box-shadow: 0 0 8px #4f74e5; /* Matching glow */
+    }
+    
+    .kyber-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(to right, #22e8ff, #5a7fff, #cc72ff); /* Even brighter, more vibrant gradient */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 25px rgba(34, 232, 255, 0.3); /* Subtle text glow */
+    }
+    
+    .lead {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        color: #e5f0ff; /* IMPROVED: Much brighter text for better contrast */
+        max-width: 90%;
+        margin-bottom: 2rem;
+    }
+    
+    /* Animated Glow Lines */
+    .glow-line {
+        position: absolute;
+        background: linear-gradient(90deg, transparent, rgba(99, 125, 255, 0.3), transparent); /* Brighter lines */
+        height: 1px;
+        width: 100%;
+        animation: glow-line-animation 8s infinite;
+        opacity: 0;
+    }
+    
+    .glow-line:nth-child(1) {
+        top: 15%;
+        animation-delay: 0s;
+    }
+    
+    .glow-line:nth-child(2) {
+        top: 45%;
+        animation-delay: 2s;
+    }
+    
+    .glow-line:nth-child(3) {
+        top: 75%;
+        animation-delay: 4s;
+    }
+    
+    @keyframes glow-line-animation {
+        0% { left: -100%; opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { left: 100%; opacity: 0; }
+    }
+    
+    /* Features Section */
+    .features-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+    
+    .feature-box {
+        background: rgba(35, 55, 95, 0.7); /* Much brighter blue-based background */
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 2.5rem;
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(65, 90, 140, 0.8); /* Brighter border */
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .feature-box:hover {
+        transform: translateY(-8px);
+        border-color: rgba(99, 125, 255, 0.5); /* Brighter border on hover */
+        box-shadow: 0 15px 30px rgba(15, 23, 42, 0.8), 
+                    0 0 0 1px rgba(99, 125, 255, 0.2),
+                    0 0 20px rgba(99, 125, 255, 0.3); /* Enhanced glow */
+    }
+    
+    .feature-box::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, rgba(99, 125, 255, 0.08), transparent 70%); /* Brighter glow */
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .feature-box:hover::before {
+        opacity: 1;
+    }
+    
+    .feature-icon {
+        width: 64px;
+        height: 64px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 15px;
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        background: rgba(99, 125, 255, 0.15); /* More visible background */
+        border: 1px solid rgba(99, 125, 255, 0.3); /* More visible border */
+        position: relative;
+        overflow: hidden;
     }
-
-    .feature-item:hover .feature-icon {
-        background: #3498db;
-        color: white;
+    
+    .feature-icon::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(99, 125, 255, 0.4) 0%, transparent 70%); /* Enhanced glow */
+        top: 0;
+        left: 0;
     }
-
-    .security-alert {
-        border-left: 5px solid #f39c12;
-        background-color: rgba(243, 156, 18, 0.08);
+    
+    .feature-icon i {
+        font-size: 1.75rem;
+        color: #93b2ff; /* IMPROVED: Much brighter icon color */
+        position: relative;
+        z-index: 1;
+    }
+    
+    .feature-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #f8fafc;
+    }
+    
+    .feature-text {
+        color: #e5f0ff; /* IMPROVED: Much brighter text for better contrast */
+        font-size: 1rem;
+        line-height: 1.7;
+        flex-grow: 1;
+    }
+    
+    /* Implementation Panel */
+    .implementation-panel {
+        background: linear-gradient(135deg, rgba(40, 60, 110, 0.8) 0%, rgba(50, 75, 130, 0.8) 100%); /* Vibrant blue gradient */
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 2.5rem;
+        margin-bottom: 4rem;
+        border: 1px solid rgba(65, 90, 140, 0.8); /* Brighter border */
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .implementation-panel::before {
+        content: "";
+        position: absolute;
+        right: -50px;
+        bottom: -50px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(99, 125, 255, 0.15) 0%, transparent 70%); /* Enhanced glow */
+        opacity: 0.6;
+    }
+    
+    .implementation-panel h3 {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #f8fafc;
+    }
+    
+    .implementation-panel h3 i {
+        color: #93b2ff; /* IMPROVED: Much brighter icon */
+        margin-right: 0.75rem;
+    }
+    
+    .implementation-panel p {
+        color: #e5f0ff; /* IMPROVED: Much brighter text for better contrast */
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+    
+    .implementation-panel code {
+        background: rgba(30, 45, 85, 0.8); /* Brighter blue background */
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        color: #5dddff; /* Vibrant cyan */
+        font-size: 0.95rem;
+        border: 1px solid rgba(80, 110, 160, 0.8); /* Brighter border */
+    }
+    
+    /* Security Warning */
+    .security-warning {
+        background: linear-gradient(to right, rgba(235, 45, 85, 0.1) 0%, rgba(235, 45, 85, 0.05) 100%); /* More visible gradient */
+        border-left: 4px solid #ff3366; /* Brighter accent */
         border-radius: 12px;
-        padding: 1rem 1.25rem;
+        padding: 2rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+        backdrop-filter: blur(10px);
     }
-
-    .security-alert h6 {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
+    
+    .security-warning i {
+        color: #ff5c82; /* Brighter icon */
+        font-size: 2rem;
+        flex-shrink: 0;
     }
-
-    .security-alert .fa-exclamation-triangle {
-        font-size: 1.6rem;
+    
+    .security-warning h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: #f8fafc;
     }
+    
+    .security-warning p {
+        color: #e5f0ff; /* IMPROVED: Much brighter text for better contrast */
+        font-size: 1rem;
+        margin-bottom: 0;
+        line-height: 1.7;
+    }
+    
+    /* Decorative Elements */
+    .hexagon-grid {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 300px;
+        height: 300px;
+        opacity: 0.25; /* More visible pattern */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%2378a0ff' fill-opacity='0.45' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        z-index: 0;
+    }
+    /* Specific override for key-related sections */
+.key-generation,
+.encryption,
+.decryption {
+    color: #ffd866 !important; /* Soft yellow for better contrast */
+}
 
-    .container .row.mt-5 {
-        margin-top: 3rem !important;
+.key-generation * {
+    color: #ffd866 !important;
+}
+
+    
+    /* IMPROVED: Making sure any native container divs with white text are fixed */
+    .container, .row, .col, div {
+        color: inherit; /* Inherit the parent text color */
+    }
+    
+    /* IMPROVED: Fix any white text on white background issues */
+    p, h1, h2, h3, h4, h5, h6, span, a, li, td, th, pre, code, strong, em, b, i {
+        color: #e5f0ff !important; /* Force bright text color for all text elements */
+    }
+    
+    /* IMPROVED: Ensure any white background divs are fixed */
+    .container-fluid, .container, .row, .col, div, section, article, 
+    .card, .card-body, .card-header, .card-footer {
+        background-color: transparent !important; /* Force any white background divs to be transparent */
+    }
+    
+    /* IMPROVED: Target specific algorithm operation sections that might be hidden */
+    .algorithm-steps, .key-generation, .encryption, .decryption,
+    .algo-section, .step-section, .math-section, .code-section {
+        background-color: rgba(35, 55, 95, 0.7) !important; /* Use same background as feature boxes */
+        border: 1px solid rgba(65, 90, 140, 0.8) !important; /* Matching border */
+        border-radius: 12px;
+        padding: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+        box-shadow: 0 8px 16px rgba(15, 23, 42, 0.4) !important;
+    }
+    
+    /* IMPROVED: Make any code blocks or math more visible */
+    pre, code, .math, .equation, .highlight, .code-block, .math-block {
+        background-color: rgba(20, 30, 60, 0.9) !important; /* Darker background for code */
+        color: #5dddff !important; /* Bright cyan for code */
+        border: 1px solid rgba(80, 110, 160, 0.8) !important;
+        border-radius: 6px;
+        padding: 1rem !important;
+        font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+        margin: 1rem 0 !important;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .kyber-title {
+            font-size: 3rem;
+        }
+        
+        .hero-section {
+            padding: 3rem 2rem;
+        }
+        
+        .lead {
+            max-width: 100%;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .kyber-title {
+            font-size: 2.5rem;
+        }
+        
+        .features-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .hero-section {
+            padding: 2.5rem 1.5rem;
+        }
+        
+        .implementation-panel, 
+        .security-warning {
+            padding: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .kyber-title {
+            font-size: 2rem;
+        }
+        
+        .neon-badge {
+            font-size: 0.7rem;
+            padding: 0.4rem 1rem;
+        }
+        
+        .security-warning {
+            flex-direction: column;
+            gap: 1rem;
+        }
     }
 </style>
 {% endblock %}
@@ -84,81 +439,107 @@
 {% block content %}
 {{ super() }}
 
-<div class="container py-4">
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="info-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">
-                        <i class="fas fa-info-circle me-2"></i>About Kyber KEM
-                    </h5>
-                    <span class="info-badge">NIST Selected</span>
-                </div>
-                <div class="card-body">
-                    <p class="mb-4">Kyber is a module lattice-based key encapsulation mechanism (KEM) selected by NIST for standardization in post-quantum cryptography.</p>
-                    
-                    <h6 class="fw-semibold"><i class="fas fa-star me-2"></i>Key Features:</h6>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-shield-alt"></i>
-                                </div>
-                                <div>
-                                    <strong>Security basis:</strong>
-                                    <p class="text-muted small mb-0">Based on the hardness of the module learning with errors (MLWE) problem</p>
-                                </div>
-                            </div>
+<!-- Adding custom JavaScript to ensure all content is visible -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Find all white background elements and fix them
+    const allElements = document.querySelectorAll('*');
+    
+    allElements.forEach(function(el) {
+        const style = window.getComputedStyle(el);
+        const bgColor = style.backgroundColor;
+        
+        // Check if background is white or very light
+        if (bgColor === 'rgb(255, 255, 255)' || 
+            bgColor.startsWith('rgba(255, 255, 255') ||
+            bgColor.match(/rgb\(2[4-5][0-9], 2[4-5][0-9], 2[4-5][0-9]/) ||
+            bgColor.match(/rgba\(2[4-5][0-9], 2[4-5][0-9], 2[4-5][0-9]/)) {
+            
+            // Apply styling to make content visible
+            el.style.backgroundColor = 'rgba(35, 55, 95, 0.7)';
+            el.style.color = '#e5f0ff';
+            el.style.borderRadius = '8px';
+            el.style.padding = '10px';
+            el.style.border = '1px solid rgba(65, 90, 140, 0.8)';
+            
+            // Make all child text elements visible
+            const textElements = el.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, a, li, td, th');
+            textElements.forEach(function(textEl) {
+                textEl.style.color = '#e5f0ff';
+            });
+        }
+        
+        // Check if text color is black or very dark 
+        const color = style.color;
+        if (color === 'rgb(0, 0, 0)' || 
+            color.startsWith('rgba(0, 0, 0') ||
+            color.match(/rgb\([0-1][0-9], [0-1][0-9], [0-1][0-9]/) ||
+            color.match(/rgba\([0-1][0-9], [0-1][0-9], [0-1][0-9]/)) {
+            
+            // Force text to be visible
+            el.style.color = '#e5f0ff';
+        }
+    });
+});
+</script>
 
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                </div>
-                                <div>
-                                    <strong>Performance:</strong>
-                                    <p class="text-muted small mb-0">Good balance between key size, ciphertext size, and efficiency</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-layer-group"></i>
-                                </div>
-                                <div>
-                                    <strong>Variants:</strong>
-                                    <p class="text-muted small mb-0">Supports multiple security levels: Kyber512, Kyber768, Kyber1024</p>
-                                </div>
-                            </div>
-
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <div>
-                                    <strong>Status:</strong>
-                                    <p class="text-muted small mb-0">Selected by NIST for standardization</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 mb-3">
-                        <p>In this demo, we're using the Kyber512 variant from the <code>pqcrypto</code> Python package.</p>
-                    </div>
-
-                    <div class="security-alert mt-4 d-flex align-items-start">
-                        <div class="me-3">
-                            <i class="fas fa-exclamation-triangle text-warning"></i>
-                        </div>
-                        <div>
-                            <h6>Security Considerations</h6>
-                            <p class="mb-0 small">Kyber's quantum-resistance depends on correct implementation and parameter selection. Stay informed with ongoing cryptographic standards and research developments.</p>
-                        </div>
-                    </div>
-                </div>
+<div class="container kyber-wrapper">
+    <div class="hero-section">
+        <div class="glow-line"></div>
+        <div class="glow-line"></div>
+        <div class="glow-line"></div>
+        <div class="hero-content">
+            <span class="neon-badge">NIST Selected</span>
+            <h1 class="kyber-title">Kyber KEM</h1>
+            <p class="lead">A quantum-resistant key encapsulation mechanism based on module lattices, selected by NIST for standardization in post-quantum cryptography.</p>
+        </div>
+        <div class="hexagon-grid"></div>
+    </div>
+    
+    <div class="features-container">
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
             </div>
+            <h3 class="feature-title">Security Basis</h3>
+            <p class="feature-text">Based on the hardness of the module learning with errors (MLWE) problem, providing strong quantum resistance.</p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <h3 class="feature-title">Performance</h3>
+            <p class="feature-text">Good balance between key size, ciphertext size, and computational efficiency across platforms.</p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="fas fa-layer-group"></i>
+            </div>
+            <h3 class="feature-title">Variants</h3>
+            <p class="feature-text">Supports multiple security levels: Kyber512, Kyber768, Kyber1024 for scalable security requirements.</p>
+        </div>
+        
+        <div class="feature-box">
+            <div class="feature-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="feature-title">Status</h3>
+            <p class="feature-text">Selected by NIST for standardization, signifying its robustness and reliability for post-quantum security.</p>
+        </div>
+    </div>
+    
+    <div class="implementation-panel">
+        <h3><i class="fas fa-code"></i>Implementation Details</h3>
+        <p>In this demo, we're using the Kyber512 variant from the <code>pqcrypto</code> Python package.</p>
+    </div>
+    
+    <div class="security-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+            <h3>Security Considerations</h3>
+            <p>Kyber's quantum-resistance depends on correct implementation and parameter selection. Stay informed with ongoing cryptographic standards and research developments.</p>
         </div>
     </div>
 </div>

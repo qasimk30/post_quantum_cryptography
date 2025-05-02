@@ -2,64 +2,216 @@
 
 {% block extra_css %}
 <style>
-    .info-card {
-        border-radius: 20px;
+    :root {
+        --primary-color: #6366F1;
+        --primary-dark: #4F46E5;
+        --secondary-color: #10B981;
+        --accent-color: #F59E0B;
+        --light-bg: #F9FAFB;
+        --dark-bg: #1F2937;
+        --card-bg: #FFFFFF;
+        --text-primary: #111827;
+        --text-secondary: #4B5563;
+        --border-radius: 12px;
+    }
+
+    body {
+        background-color: var(--light-bg);
+        color: var(--text-primary);
+    }
+
+    /* Modern Card Design */
+    .algo-card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+        margin-bottom: 2rem;
         overflow: hidden;
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-        margin-bottom: 2.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: var(--card-bg);
     }
 
-    .info-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    .algo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
     }
 
-    .card-header {
-        background: linear-gradient(135deg, #2c3e50, #1a252f);
+    .card-header-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         color: white;
-        padding: 1rem 1.25rem;
-        border-bottom: none;
+        padding: 1.5rem;
+        position: relative;
     }
 
-    .info-badge {
-        font-size: 0.75rem;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: #ffc107;
-        color: #212529;
-        margin-left: 10px;
+    .nist-badge {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background-color: var(--accent-color);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 0.4rem 0.8rem;
+        border-radius: 30px;
+        letter-spacing: 0.5px;
     }
 
+    .card-content {
+        padding: 1.5rem;
+    }
+
+    /* Feature pills */
+    .feature-pills {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .feature-pills li {
+        background-color: rgba(99, 102, 241, 0.1);
+        color: var(--primary-color);
+        padding: 0.6rem 1rem;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+    .feature-pills li i {
+        margin-right: 0.5rem;
+    }
+
+    /* Information sections */
+    .info-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--primary-dark);
+    }
+
+    .section-title i {
+        background-color: rgba(99, 102, 241, 0.1);
+        color: var(--primary-color);
+        padding: 0.5rem;
+        border-radius: 8px;
+        margin-right: 0.8rem;
+    }
+
+    /* Feature list */
     .feature-list {
         list-style: none;
         padding-left: 0;
+        margin: 1.2rem 0;
     }
 
     .feature-list li {
         position: relative;
         padding-left: 2rem;
         margin-bottom: 1rem;
+        display: flex;
+        align-items: flex-start;
     }
 
     .feature-list li::before {
-        content: '\f058';
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        content: '';
         position: absolute;
         left: 0;
-        top: 0;
-        color: #3498db;
+        top: 0.25rem;
+        width: 1.2rem;
+        height: 1.2rem;
+        background-color: rgba(16, 185, 129, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .alert-custom {
-        border-left: 5px solid #f39c12;
-        background-color: rgba(243, 156, 18, 0.08);
-        border-radius: 12px;
-        padding: 1rem 1.25rem;
-        margin-top: 2rem;
+    .feature-list li::after {
+        content: '✓';
+        position: absolute;
+        left: 0.35rem;
+        top: 0.1rem;
+        font-size: 0.8rem;
+        color: var(--secondary-color);
+    }
+
+    .feature-list strong {
+        color: var(--text-primary);
+        min-width: 120px;
+        display: inline-block;
+    }
+
+    /* Alert box */
+    .alert-modern {
+        border: none;
+        border-radius: var(--border-radius);
+        background-color: rgba(245, 158, 11, 0.1);
+        padding: 1.2rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .alert-icon {
+        background-color: var(--accent-color);
+        color: white;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .code-block {
+        background-color: #F3F4F6;
+        border-radius: 6px;
+        padding: 0.2rem 0.5rem;
+        font-family: monospace;
+        font-size: 0.9rem;
+    }
+
+    /* Variant selector */
+    .variant-selector {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    .variant-btn {
+        flex: 1;
+        padding: 0.8rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        background-color: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+    }
+
+    .variant-btn.active {
+        border-color: var(--primary-color);
+        background-color: rgba(99, 102, 241, 0.1);
+        color: var(--primary-color);
+        font-weight: 500;
+    }
+
+    .variant-btn:hover:not(.active) {
+        border-color: #D1D5DB;
+        background-color: #F9FAFB;
     }
 </style>
 {% endblock %}
@@ -67,35 +219,67 @@
 {% block content %}
 {{ super() }}
 
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="info-card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    <i class="fas fa-pen-nib me-2"></i>About Dilithium Signature
-                </h5>
-                <span class="info-badge">NIST Selected</span>
-            </div>
-            <div class="card-body">
-                <p class="mb-4">Dilithium is a lattice-based digital signature scheme selected by NIST as part of the post-quantum cryptography standardization process.</p>
-                
-                <h6 class="fw-semibold"><i class="fas fa-star me-2"></i>Key Features:</h6>
-                <ul class="feature-list">
-                    <li><strong>Security basis:</strong> Based on the hardness of the Module Learning With Errors (MLWE) problem</li>
-                    <li><strong>Performance:</strong> Good balance between signature size, key size, and computational efficiency</li>
-                    <li><strong>Variants:</strong> Supports Dilithium2, Dilithium3, Dilithium5</li>
-                    <li><strong>Status:</strong> Selected by NIST for standardization</li>
-                </ul>
-                
-                <p class="mt-3">In this demo, we're using the Dilithium2 variant from the <code>pqcrypto</code> Python package.</p>
-                
-                <div class="alert-custom d-flex align-items-start">
-                    <div class="me-3">
-                        <i class="fas fa-exclamation-triangle text-warning"></i>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="algo-card">
+                <div class="card-header-gradient">
+                    <h3 class="h4 m-0">Dilithium Digital Signature</h3>
+                    <span class="nist-badge">NIST Selected</span>
+                </div>
+                <div class="card-content">
+                    <!-- Feature Pills -->
+                    <ul class="feature-pills">
+                        <li><i class="fas fa-shield-alt"></i> Post-Quantum</li>
+                        <li><i class="fas fa-lock"></i> Lattice-Based</li>
+                        <li><i class="fas fa-tachometer-alt"></i> High Performance</li>
+                        <li><i class="fas fa-award"></i> NIST Standardized</li>
+                    </ul>
+
+                    <!-- Overview Section -->
+                    <div class="info-section">
+                        <p class="mb-0">Dilithium is a state-of-the-art lattice-based digital signature scheme designed to withstand attacks from quantum computers. Selected by NIST as part of the post-quantum cryptography standardization process, it offers an excellent balance between security and performance.</p>
                     </div>
-                    <div>
-                        <strong>Security Note:</strong>
-                        <p class="mb-0 small">Like all cryptographic algorithms, Dilithium's security depends on proper implementation and parameter selection. Stay updated with cryptographic guidance and best practices.</p>
+
+                    <!-- Details Section -->
+                    <div class="info-section">
+                        <h4 class="section-title">
+                            <i class="fas fa-cube"></i>
+                            Technical Details
+                        </h4>
+                        <ul class="feature-list">
+                            <li><strong>Security basis:</strong> Module Learning With Errors (MLWE) problem</li>
+                            <li><strong>Key size:</strong> Efficient public and private key sizes</li>
+                            <li><strong>Signature size:</strong> Compact digital signatures</li>
+                            <li><strong>Performance:</strong> Optimized for computational efficiency</li>
+                            <li><strong>Implementation:</strong> Using <span class="code-block">pqcrypto</span> Python package</li>
+                        </ul>
+                    </div>
+
+                    <!-- Variant Section -->
+                    <div class="info-section">
+                        <h4 class="section-title">
+                            <i class="fas fa-layer-group"></i>
+                            Dilithium Variants
+                        </h4>
+                        <p>Dilithium offers multiple security levels to match your specific requirements:</p>
+                        <div class="variant-selector">
+                            <div class="variant-btn active">Dilithium2</div>
+                            <div class="variant-btn">Dilithium3</div>
+                            <div class="variant-btn">Dilithium5</div>
+                        </div>
+                        <p class="mt-3 text-secondary"><small>This demo is currently using the Dilithium2 variant.</small></p>
+                    </div>
+
+                    <!-- Security Note -->
+                    <div class="alert-modern">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <h5 class="h6 mb-2">Security Note</h5>
+                            <p class="mb-0 text-secondary">Like all cryptographic algorithms, Dilithium's security depends on proper implementation and parameter selection. Stay updated with the latest cryptographic guidance and follow best practices when implementing in production environments.</p>
+                        </div>
                     </div>
                 </div>
             </div>

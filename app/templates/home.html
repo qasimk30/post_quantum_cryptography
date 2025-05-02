@@ -3,64 +3,189 @@
 {% block title %}PQCrypto - Home{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="text-center mb-5">
-        <h1 class="fw-bold display-5" style="color: #2d3e50;">🔐 Welcome to Post-Quantum Cryptography</h1>
-        <p class="lead">Explore cryptography built for the quantum age — safe, scalable, and future-ready.</p>
-        <div class="d-flex justify-content-center gap-3 mt-4">
-            <a href="#algos" class="btn btn-primary btn-lg px-4">
-                <i class="fas fa-rocket me-2"></i>Launch Demo
-            </a>
-            <a href="https://csrc.nist.gov/Projects/post-quantum-cryptography" class="btn btn-outline-dark btn-lg px-4" target="_blank">
-                <i class="fas fa-info-circle me-2"></i>Learn More
-            </a>
-        </div>
-    </div>
-
-    <div class="row g-4" id="algos">
-        <div class="col-md-6">
-            <div class="card bg-white shadow-lg border-0 h-100 rounded-4" style="backdrop-filter: blur(8px);">
-                <div class="card-body text-center p-5">
-                    <i class="fas fa-key fa-3x mb-4 text-primary"></i>
-                    <h3 class="fw-semibold">Key Encapsulation (KEM)</h3>
-                    <p class="text-muted">Securely exchange keys, even in a quantum world.</p>
-                    <div class="bg-light rounded-3 p-3">
-                        <h5 class="mb-1">Kyber</h5>
-                        <p class="small text-muted mb-3">Lattice-based, quantum-secure key exchange</p>
-                        <a href="/kyber" class="btn btn-primary">
-                            <i class="fas fa-play me-1"></i>Try Kyber
+<!-- Hero Section -->
+<div class="container-fluid px-0">
+    <div class="position-relative overflow-hidden" style="background: linear-gradient(135deg, #1a237e, #283593, #3949ab);">
+        <div class="container py-5">
+            <div class="row py-5">
+                <div class="col-lg-8 mx-auto text-center text-white">
+                    <h1 class="display-4 fw-bold mb-4">
+                        <span class="d-inline-block mb-2">
+                            <i class="fas fa-shield-alt me-2"></i>PQCrypto
+                        </span>
+                        <div class="fs-2 fw-light">Post-Quantum Security for Tomorrow's World</div>
+                    </h1>
+                    <p class="lead mb-5 opacity-90">Explore quantum-resistant cryptographic algorithms designed to protect your data against emerging quantum threats.</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="#algos" class="btn btn-light btn-lg px-4 py-3 rounded-pill fw-semibold">
+                            <i class="fas fa-rocket me-2"></i>Launch Demo
+                        </a>
+                        <a href="https://csrc.nist.gov/Projects/post-quantum-cryptography" class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill" target="_blank">
+                            <i class="fas fa-info-circle me-2"></i>Learn More
                         </a>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Abstract Wave Shape Divider -->
+        <div class="position-absolute bottom-0 left-0 w-100 overflow-hidden" style="height: 70px; transform: translateY(1px);">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 70" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+                <path fill="#f8f9fa" d="M0,32L48,37.3C96,43,192,53,288,58.7C384,64,480,64,576,58.7C672,53,768,43,864,37.3C960,32,1056,32,1152,32C1248,32,1344,32,1392,32L1440,32L1440,70L1392,70C1344,70,1248,70,1152,70C1056,70,960,70,864,70C768,70,672,70,576,70C480,70,384,70,288,70C192,70,96,70,48,70L0,70Z"></path>
+            </svg>
+        </div>
+    </div>
+</div>
 
-        <div class="col-md-6">
-            <div class="card bg-white shadow-lg border-0 h-100 rounded-4" style="backdrop-filter: blur(8px);">
-                <div class="card-body text-center p-5">
-                    <i class="fas fa-signature fa-3x mb-4 text-success"></i>
-                    <h3 class="fw-semibold">Digital Signatures</h3>
-                    <p class="text-muted">Verify authenticity with quantum-safe assurance.</p>
-                    <div class="bg-light rounded-3 p-3">
-                        <h5 class="mb-1">Dilithium</h5>
-                        <p class="small text-muted mb-3">Compact, secure lattice-based signature</p>
-                        <a href="/dilithium" class="btn btn-success">
-                            <i class="fas fa-pen-fancy me-1"></i>Try Dilithium
-                        </a>
+<!-- Main Content -->
+<div class="container py-5" style="background-color: #f8f9fa;">
+    <!-- Features Section -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="p-4 bg-white rounded-4 shadow-sm h-100 border-top border-primary border-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="me-3 p-3 rounded-circle text-white d-flex align-items-center justify-content-center" style="background-color: #6366F1; width: 60px; height: 60px;">
+                        <i class="fas fa-shield-alt fa-xl"></i>
+                    </div>
+                    <h4 class="mb-0 fw-bold">Quantum Secure</h4>
+                </div>
+                <p class="text-secondary mb-0">Resistant to attacks from quantum computers, keeping your data safe for decades to come.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="p-4 bg-white rounded-4 shadow-sm h-100 border-top border-success border-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="me-3 p-3 rounded-circle text-white d-flex align-items-center justify-content-center" style="background-color: #10B981; width: 60px; height: 60px;">
+                        <i class="fas fa-check-double fa-xl"></i>
+                    </div>
+                    <h4 class="mb-0 fw-bold">NIST Vetted</h4>
+                </div>
+                <p class="text-secondary mb-0">Algorithms selected through NIST's rigorous evaluation and standardization process.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="p-4 bg-white rounded-4 shadow-sm h-100 border-top border-warning border-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="me-3 p-3 rounded-circle text-white d-flex align-items-center justify-content-center" style="background-color: #F59E0B; width: 60px; height: 60px;">
+                        <i class="fas fa-bolt fa-xl"></i>
+                    </div>
+                    <h4 class="mb-0 fw-bold">High Performance</h4>
+                </div>
+                <p class="text-secondary mb-0">Optimized implementations designed for efficiency without compromising security.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Algorithm Cards -->
+    <h2 class="text-center mb-4 fw-bold" id="algos">Explore Our Quantum-Safe Algorithms</h2>
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow overflow-hidden rounded-4">
+                <div class="card-header text-white p-4" style="background: linear-gradient(135deg, #4338CA, #6366F1);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="fw-bold m-0">Key Encapsulation</h3>
+                        <span class="badge rounded-pill px-3 py-2" style="background-color: rgba(255,255,255,0.25);">
+                            <i class="fas fa-key me-1"></i>KEM
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        <p class="text-secondary">Securely establish shared secret keys, resistant to quantum attacks. Perfect for protecting data in transit.</p>
+                    </div>
+                    
+                    <div class="algorithm-option p-3 rounded-3 mb-2" style="background-color: rgba(99, 102, 241, 0.08); border-left: 4px solid #6366F1;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h4 class="fw-bold mb-1">Kyber</h4>
+                                <p class="text-secondary mb-2 small">Module-Lattice-Based KEM</p>
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge rounded-pill bg-white text-primary border border-primary px-3 py-2 small">
+                                        <i class="fas fa-tachometer-alt me-1"></i>Fast
+                                    </span>
+                                    <span class="badge rounded-pill bg-white text-primary border border-primary px-3 py-2 small">
+                                        <i class="fas fa-award me-1"></i>NIST Selected
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="/kyber" class="btn btn-primary rounded-pill px-4 py-2">
+                                <i class="fas fa-play me-2"></i>Try It
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow overflow-hidden rounded-4">
+                <div class="card-header text-white p-4" style="background: linear-gradient(135deg, #047857, #10B981);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="fw-bold m-0">Digital Signatures</h3>
+                        <span class="badge rounded-pill px-3 py-2" style="background-color: rgba(255,255,255,0.25);">
+                            <i class="fas fa-signature me-1"></i>DSA
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        <p class="text-secondary">Verify message authenticity and integrity with quantum-resistant algorithms. Essential for secure communications.</p>
+                    </div>
+                    
+                    <div class="algorithm-option p-3 rounded-3 mb-2" style="background-color: rgba(16, 185, 129, 0.08); border-left: 4px solid #10B981;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h4 class="fw-bold mb-1">Dilithium</h4>
+                                <p class="text-secondary mb-2 small">Module-Lattice-Based Signature</p>
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge rounded-pill bg-white text-success border border-success px-3 py-2 small">
+                                        <i class="fas fa-compress-alt me-1"></i>Compact
+                                    </span>
+                                    <span class="badge rounded-pill bg-white text-success border border-success px-3 py-2 small">
+                                        <i class="fas fa-award me-1"></i>NIST Selected
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="/dilithium" class="btn btn-success rounded-pill px-4 py-2">
+                                <i class="fas fa-pen-fancy me-2"></i>Try It
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="mt-5">
-        <div class="card border-0 shadow-sm bg-light rounded-4">
-            <div class="card-body p-4">
-                <h4 class="fw-bold mb-3">
-                    <i class="fas fa-question-circle me-2 text-info"></i>Why Post-Quantum?
-                </h4>
-                <p>Quantum computers will render traditional encryption schemes like RSA and ECC obsolete. Post-quantum cryptography ensures your systems are resilient against this threat.</p>
-                <p class="mb-0">This demo showcases algorithms like Kyber and Dilithium — vetted and selected by NIST — via the `pqcrypto` Python package.</p>
+    
+    <!-- Why Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <div class="col-md-4 d-flex" style="background-color: #0f172a;">
+                            <div class="p-4 text-white d-flex flex-column justify-content-center align-items-center text-center">
+                                <div class="p-3 rounded-circle mb-3" style="background-color: rgba(255,255,255,0.1);">
+                                    <i class="fas fa-question fa-2x"></i>
+                                </div>
+                                <h3 class="fw-bold">Why Post-Quantum?</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="p-4 p-md-5">
+                                <p class="mb-3">Quantum computers will soon break widely used encryption like RSA and ECC, creating an urgent need for quantum-resistant algorithms to secure our digital infrastructure.</p>
+                                <p class="mb-3">Our demos showcase NIST-selected algorithms implemented via the <code class="bg-light px-2 py-1 rounded">pqcrypto</code> Python package.</p>
+                                <div class="alert alert-warning d-flex p-3 rounded-3 mt-4">
+                                    <div class="me-3">
+                                        <i class="fas fa-lightbulb fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0 small"><strong>Prepare now:</strong> Quantum computers are advancing rapidly. Implement quantum-safe cryptography today to protect your long-term sensitive data.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

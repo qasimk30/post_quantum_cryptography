@@ -8,68 +8,158 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         :root {
-            --primary-color: #2d3e50;
-            --secondary-color: #1abc9c;
-            --accent-color: #3498db;
-            --light-bg: #ecf0f1;
-            --dark-text: #2c3e50;
+            /* Primary Colors */
+            --primary-color: #4F46E5;
+            --primary-dark: #3730A3;
+            --primary-light: #C7D2FE;
+            
+            /* Secondary Colors */
+            --secondary-color: #10B981;
+            --secondary-dark: #047857;
+            --secondary-light: #A7F3D0;
+            
+            /* Accent Colors */
+            --accent-color: #F59E0B;
+            --accent-dark: #D97706;
+            --accent-light: #FEF3C7;
+            
+            /* Neutral Colors */
+            --dark-bg: #1F2937;
+            --dark-text: #111827;
+            --text-secondary: #4B5563;
+            --light-bg: #F9FAFB;
+            --light-gray: #F3F4F6;
+            --border-color: #E5E7EB;
+            
+            /* UI Elements */
+            --border-radius-sm: 6px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.025);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.04), 0 20px 48px rgba(0,0,0,0.025);
+            --transition-fast: all 0.2s ease;
+            --transition-normal: all 0.3s ease;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
         }
         
+        /* Navbar Styles */
         .navbar {
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
+            z-index: 1030;
         }
         
         .navbar-brand {
             font-weight: 700;
             font-size: 1.4rem;
+            padding: 0;
         }
         
         .navbar-dark .navbar-nav .nav-link {
             color: rgba(255,255,255,0.85);
             font-weight: 500;
+            padding: 0.75rem 1rem;
+            transition: var(--transition-fast);
+            border-radius: var(--border-radius-sm);
+            margin: 0 0.2rem;
         }
         
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link:focus {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .dropdown-menu {
+            border: none;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            padding: 0.5rem;
+            min-width: 12rem;
+        }
+        
+        .dropdown-item {
+            padding: 0.65rem 1rem;
+            font-weight: 500;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition-fast);
+        }
+        
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: var(--light-gray);
+        }
+        
+        .dropdown-item i {
+            color: var(--primary-color);
+            width: 1.5rem;
+            text-align: center;
+        }
+        
+        /* Card Styles */
         .card {
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            overflow: hidden;
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
         }
         
         .card-header {
-            border-top-left-radius: 10px !important;
-            border-top-right-radius: 10px !important;
+            border-bottom: none;
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
         }
         
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Button Styles */
         .btn {
-            border-radius: 6px;
-            font-weight: 600;
+            font-weight: 500;
             padding: 0.5rem 1.5rem;
-            transition: all 0.3s;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition-fast);
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.75rem;
+            font-weight: 600;
         }
         
         .btn-primary {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
         
-        .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
+        .btn-primary:hover, 
+        .btn-primary:focus {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
         }
         
         .btn-success {
@@ -77,39 +167,145 @@
             border-color: var(--secondary-color);
         }
         
-        .btn-success:hover {
-            background-color: #16a085;
-            border-color: #16a085;
+        .btn-success:hover,
+        .btn-success:focus {
+            background-color: var(--secondary-dark);
+            border-color: var(--secondary-dark);
         }
         
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover,
+        .btn-outline-primary:focus {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Form Elements */
+        .form-control {
+            border-radius: var(--border-radius-sm);
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+            transition: var(--transition-fast);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+        
+        textarea.form-control {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Footer */
         .footer {
-            background-color: var(--primary-color) !important;
+            background-color: var(--dark-bg);
             color: #fff;
-            padding: 1.5rem 0;
+            padding: 2rem 0;
+            margin-top: 5rem;
         }
         
         .footer .text-muted {
             color: rgba(255,255,255,0.7) !important;
         }
         
-        .form-control {
-            border-radius: 6px;
-            padding: 0.6rem 1rem;
-            border: 1px solid #ddd;
+        .footer a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            transition: var(--transition-fast);
         }
         
-        textarea.form-control {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
+        .footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .footer-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            transition: var(--transition-fast);
+        }
+        
+        .footer-icon:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Utilities */
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        
+        .text-secondary {
+            color: var(--text-secondary) !important;
+        }
+        
+        .text-success {
+            color: var(--secondary-color) !important;
+        }
+        
+        .text-warning {
+            color: var(--accent-color) !important;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+        
+        .bg-success {
+            background-color: var(--secondary-color) !important;
+        }
+        
+        .bg-warning {
+            background-color: var(--accent-color) !important;
+        }
+        
+        .bg-light-gray {
+            background-color: var(--light-gray) !important;
+        }
+        
+        .rounded-pill {
+            border-radius: 50rem !important;
+        }
+        
+        .rounded-4 {
+            border-radius: var(--border-radius-lg) !important;
+        }
+        
+        .rounded-3 {
+            border-radius: var(--border-radius-md) !important;
         }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--dark-bg);">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-shield-alt me-2"></i>PQCrypto Demo
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <span class="d-flex align-items-center justify-content-center me-2" style="background-color: var(--primary-color); width: 36px; height: 36px; border-radius: 8px;">
+                    <i class="fas fa-shield-alt fa-lg text-white"></i>
+                </span>
+                PQCrypto
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -122,19 +318,19 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="kemDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-key me-1"></i> KEM Algorithm
+                        <a class="nav-link dropdown-toggle {% if '/kyber' in request.path %}active{% endif %}" href="#" id="kemDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-key me-1"></i> Key Encapsulation
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="kemDropdown">
-                            <li><a class="dropdown-item" href="/kyber">Kyber</a></li>
+                            <li><a class="dropdown-item" href="/kyber"><i class="fas fa-chevron-right"></i> Kyber</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="signatureDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-signature me-1"></i> Signature Algorithm
+                        <a class="nav-link dropdown-toggle {% if '/dilithium' in request.path %}active{% endif %}" href="#" id="signatureDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-signature me-1"></i> Digital Signatures
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="signatureDropdown">
-                            <li><a class="dropdown-item" href="/dilithium">Dilithium</a></li>
+                            <li><a class="dropdown-item" href="/dilithium"><i class="fas fa-chevron-right"></i> Dilithium</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -142,15 +338,40 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
-        {% block content %}{% endblock %}
-    </div>
+    {% block content %}{% endblock %}
 
-    <footer class="footer mt-5">
-        <div class="container text-center">
-            <span class="text-muted">Post Quantum Cryptography Demo Application</span>
-            <div class="mt-2">
-                <small class="text-muted">Resistant to quantum computing attacks</small>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="footer-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 class="m-0 fw-bold">PQCrypto</h4>
+                    </div>
+                    <p class="text-muted mb-0">Post-Quantum Cryptography Demo Application</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3 fw-semibold">Resources</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><a href="https://csrc.nist.gov/Projects/post-quantum-cryptography" target="_blank"><i class="fas fa-external-link-alt me-2"></i>NIST PQC Project</a></li>
+                        <li class="mb-2"><a href="https://pq-crystals.org/" target="_blank"><i class="fas fa-external-link-alt me-2"></i>CRYSTALS Project</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3 fw-semibold">About</h5>
+                    <p class="text-muted mb-3 small">This demonstration showcases post-quantum cryptographic algorithms designed to resist attacks from quantum computers.</p>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-lock me-2 text-primary"></i>
+                        <span class="small text-muted">Quantum-resistant security standards</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p class="mb-0 small text-muted">© 2025 PQCrypto Demo</p>
             </div>
         </div>
     </footer>

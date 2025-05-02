@@ -1,112 +1,100 @@
-// Main JavaScript file for PQCrypto Web App
+// Core JavaScript logic for PQCrypto Web Interface
 
-// Function to show notifications
+// Utility: Display temporary alert messages
 function showNotification(message, type = 'info') {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${type} alert-dismissible fade show notification-toast`;
-    notification.role = 'alert';
-    notification.innerHTML = `
+    const alertBox = document.createElement('div');
+    alertBox.className = `alert alert-${type} alert-dismissible fade show notification-toast`;
+    alertBox.role = 'alert';
+    alertBox.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
-    
-    // Add custom styling
-    notification.style.position = 'fixed';
-    notification.style.top = '20px';
-    notification.style.right = '20px';
-    notification.style.zIndex = '1050';
-    notification.style.minWidth = '300px';
-    
-    // Add to document
-    document.body.appendChild(notification);
-    
-    // Auto-dismiss after 5 seconds
+
+    alertBox.style.position = 'fixed';
+    alertBox.style.top = '20px';
+    alertBox.style.right = '20px';
+    alertBox.style.zIndex = '1050';
+    alertBox.style.minWidth = '300px';
+
+    document.body.appendChild(alertBox);
+
     setTimeout(() => {
-        notification.classList.remove('show');
+        alertBox.classList.remove('show');
         setTimeout(() => {
-            notification.remove();
+            alertBox.remove();
         }, 150);
     }, 5000);
 }
 
-// Copy text to clipboard function
+// Utility: Copy string content to user's clipboard
 function copyToClipboard(text) {
     if (!navigator.clipboard) {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        tempInput.style.position = 'fixed';
+        tempInput.style.left = '-999999px';
+        tempInput.style.top = '-999999px';
+        document.body.appendChild(tempInput);
+        tempInput.focus();
+        tempInput.select();
+
         try {
-            const successful = document.execCommand('copy');
-            document.body.removeChild(textArea);
-            return successful;
-        } catch (err) {
-            document.body.removeChild(textArea);
+            const result = document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            return result;
+        } catch (e) {
+            document.body.removeChild(tempInput);
             return false;
         }
     }
-    
+
     return navigator.clipboard.writeText(text)
         .then(() => true)
         .catch(() => false);
 }
 
-// Add copy button to all readonly textareas
-document.addEventListener('DOMContentLoaded', function() {
-    const readonlyTextareas = document.querySelectorAll('textarea[readonly]');
-    
-    readonlyTextareas.forEach(textarea => {
-        // Create container for textarea and button
-        const container = document.createElement('div');
-        container.className = 'position-relative';
-        
-        // Get the parent element of the textarea
-        const parent = textarea.parentNode;
-        
-        // Replace the textarea with the container
-        parent.replaceChild(container, textarea);
-        
-        // Add the textarea to the container
-        container.appendChild(textarea);
-        
-        // Create the copy button
-        const copyButton = document.createElement('button');
-        copyButton.className = 'btn btn-sm btn-outline-secondary position-absolute';
-        copyButton.style.right = '5px';
-        copyButton.style.top = '5px';
-        copyButton.innerHTML = '<i class="bi bi-clipboard"></i> Copy';
-        copyButton.addEventListener('click', function() {
-            const success = copyToClipboard(textarea.value);
-            if (success) {
+// DOM Setup: Add clipboard buttons to readonly text areas
+document.addEventListener('DOMContentLoaded', () => {
+    const readonlyAreas = document.querySelectorAll('textarea[readonly]');
+
+    readonlyAreas.forEach(area => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'position-relative';
+
+        const originalParent = area.parentNode;
+        originalParent.replaceChild(wrapper, area);
+        wrapper.appendChild(area);
+
+        const clipboardBtn = document.createElement('button');
+        clipboardBtn.className = 'btn btn-sm btn-outline-secondary position-absolute';
+        clipboardBtn.style.right = '5px';
+        clipboardBtn.style.top = '5px';
+        clipboardBtn.innerHTML = '<i class="bi bi-clipboard"></i> Copy';
+
+        clipboardBtn.addEventListener('click', () => {
+            const copied = copyToClipboard(area.value);
+            if (copied) {
                 showNotification('Copied to clipboard', 'success');
             } else {
                 showNotification('Failed to copy to clipboard', 'danger');
             }
         });
-        
-        // Add the button to the container
-        container.appendChild(copyButton);
+
+        wrapper.appendChild(clipboardBtn);
     });
 });
 
-// Add animation effects for algorithm cards on homepage
-document.addEventListener('DOMContentLoaded', function() {
+// Enhance card UI interaction with hover effects
+document.addEventListener('DOMContentLoaded', () => {
     const algoCards = document.querySelectorAll('.card');
-    
+
     algoCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-10px)';
             this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
         });
-        
-        card.addEventListener('mouseleave', function() {
+
+        card.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(-5px)';
             this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
         });
