@@ -1,122 +1,447 @@
 {% extends "base.html" %}
 
-{% block title %}PQCrypto - {{ algo_name }}{% endblock %}
+{% block title %}PQCrypto | {{ algo_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary: #3a86ff;
+        --success: #4cc9f0;
+        --danger: #ff006e;
+        --warning: #ffbe0b;
+        --dark: #1e293b;
+        --light: #f8f9fa;
+    }
+    
+    body {
+        background-color: #f0f4f8;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .header-container {
+        background: linear-gradient(135deg, var(--primary) 0%, #8338ec 100%);
+        color: white;
+        border-radius: 0 0 1.5rem 1.5rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .algo-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 700;
+        border-radius: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .badge-kem {
+        background-color: var(--success);
+        color: var(--dark);
+    }
+    
+    .badge-dsa {
+        background-color: #f72585;
+        color: white;
+    }
+    
+    .panel {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .panel:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .panel-header {
+        border-bottom: 2px solid #eaedf0;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .panel-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    .panel-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        margin-right: 1rem;
+        color: white;
+    }
+    
+    .icon-keygen {
+        background-color: var(--primary);
+    }
+    
+    .icon-encrypt {
+        background-color: var(--success);
+    }
+    
+    .icon-decrypt {
+        background-color: var(--warning);
+    }
+    
+    .icon-sign {
+        background-color: var(--success);
+    }
+    
+    .icon-verify {
+        background-color: var(--warning);
+    }
+    
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #2a75ed;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-primary:disabled {
+        background-color: #a3c2f8;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .key-field {
+        background-color: #f5f7fa;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.875rem;
+        padding: 0.75rem;
+        resize: none;
+        width: 100%;
+        transition: border-color 0.2s;
+    }
+    
+    .key-field:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+    }
+    
+    .field-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+    }
+    
+    .result-container {
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .result-success {
+        background-color: rgba(76, 201, 240, 0.1);
+        border: 1px solid var(--success);
+    }
+    
+    .result-error {
+        background-color: rgba(255, 0, 110, 0.1);
+        border: 1px solid var(--danger);
+    }
+    
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        margin-left: 0.5rem;
+        cursor: help;
+    }
+    
+    .tooltip .tooltip-text {
+        visibility: hidden;
+        width: 200px;
+        background-color: var(--dark);
+        color: white;
+        text-align: center;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 0.75rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <h1>{{ algo_name }}</h1>
-        <p class="lead">
+<div class="container">
+    <div class="header-container">
+        <h1 class="display-5 fw-bold mb-3">{{ algo_name }}</h1>
+        <div>
             {% if algo_type == "KEM" %}
-            Key Encapsulation Mechanism for secure key exchange.
+            <span class="algo-badge badge-kem">
+                <i class="fas fa-key me-2"></i>Key Encapsulation Mechanism
+            </span>
+            <p class="mt-2 mb-0">Securely exchange cryptographic keys resistant to quantum attacks</p>
             {% else %}
-            Digital Signature Algorithm for message authentication.
+            <span class="algo-badge badge-dsa">
+                <i class="fas fa-signature me-2"></i>Digital Signature Algorithm
+            </span>
+            <p class="mt-2 mb-0">Authenticate messages with quantum-resistant signatures</p>
             {% endif %}
-        </p>
-        <hr>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">Key Generation</h5>
-            </div>
-            <div class="card-body">
-                <button id="generate-keys" class="btn btn-success">Generate Key Pair</button>
-                <div class="mt-3">
-                    <div class="form-group">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <label for="public-key">Public Key:</label>
-                        <textarea id="public-key" class="form-control" rows="3" readonly></textarea>
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="panel" id="key-generation-panel">
+                <div class="panel-header">
+                    <div class="panel-icon icon-keygen">
+                        <i class="fas fa-dice"></i>
                     </div>
-                    <div class="form-group mt-2">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <label for="private-key">Private Key:</label>
-                        <textarea id="private-key" class="form-control" rows="3" readonly></textarea>
+                    <h3 class="panel-title">Key Generation</h3>
+                    <div class="tooltip">
+                        <i class="fas fa-info-circle"></i>
+                        <span class="tooltip-text">Generate a cryptographic key pair with a private key for your use and a public key that can be shared</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-6">
-        {% if algo_type == "KEM" %}
-        <div class="card mb-4">
-            <div class="card-header bg-success text-white">
-                <h5 class="card-title mb-0">Encapsulation</h5>
-            </div>
-            <div class="card-body">
-                <button id="encapsulate" class="btn btn-primary" disabled>Encapsulate</button>
-                <div class="mt-3">
-                    <div class="form-group">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <label for="ciphertext">Ciphertext:</label>
-                        <textarea id="ciphertext" class="form-control" rows="3" readonly></textarea>
-                    </div>
-                    <div class="form-group mt-2">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <label for="shared-secret-enc">Shared Secret:</label>
-                        <textarea id="shared-secret-enc" class="form-control" rows="2" readonly></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card mb-4">
-            <div class="card-header bg-info text-white">
-                <h5 class="card-title mb-0">Decapsulation</h5>
-            </div>
-            <div class="card-body">
-                <button id="decapsulate" class="btn btn-primary" disabled>Decapsulate</button>
-                <div class="mt-3">
-                    <div class="form-group">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <label for="shared-secret-dec">Shared Secret:</label>
-                        <textarea id="shared-secret-dec" class="form-control" rows="2" readonly></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% else %}
-        <div class="card mb-4">
-            <div class="card-header bg-success text-white">
-                <h5 class="card-title mb-0">Sign Message</h5>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <label for="message-to-sign">Message:</label>
-                    <textarea id="message-to-sign" class="form-control" rows="3" placeholder="Enter a message to sign..."></textarea>
-                </div>
-                <button id="sign-message" class="btn btn-primary mt-2" disabled>Sign Message</button>
-                <div class="mt-3">
-                    <div class="form-group">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <label for="signature">Signature:</label>
-                        <textarea id="signature" class="form-control" rows="3" readonly></textarea>
+                
+                <div class="panel-body">
+                    <button id="generate-keys" class="action-btn btn-primary">
+                        <i class="fas fa-key me-2"></i>Generate Key Pair
+                    </button>
+                    
+                    <div class="key-output mt-4" id="key-output" style="display: none;">
+                        <div class="mb-3">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <label for="public-key" class="field-label">
+                                <i class="fas fa-globe me-2"></i>Public Key
+                            </label>
+                            <div class="position-relative">
+                                <textarea id="public-key" class="key-field" rows="2" readonly></textarea>
+                                <button class="btn btn-sm position-absolute" style="top: 5px; right: 5px;" onclick="copyToClipboard('public-key')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <label for="private-key" class="field-label">
+                                <i class="fas fa-user-lock me-2"></i>Private Key
+                                <small class="text-danger">(Keep Secret!)</small>
+                            </label>
+                            <div class="position-relative">
+                                <textarea id="private-key" class="key-field" rows="2" readonly></textarea>
+                                <button class="btn btn-sm position-absolute" style="top: 5px; right: 5px;" onclick="copyToClipboard('private-key')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="card mb-4">
-            <div class="card-header bg-info text-white">
-                <h5 class="card-title mb-0">Verify Signature</h5>
-            </div>
-            <div class="card-body">
-                <button id="verify-signature" class="btn btn-primary" disabled>Verify Signature</button>
-                <div class="mt-3">
-                    <div class="form-group">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <label for="verification-result">Verification Result:</label>
-                        <div id="verification-result" class="alert" role="alert"></div>
+        <div class="col-lg-7">
+            {% if algo_type == "KEM" %}
+            <div class="panel" id="encapsulation-panel">
+                <div class="panel-header">
+                    <div class="panel-icon icon-encrypt">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="panel-title">Encapsulation</h3>
+                    <div class="tooltip">
+                        <i class="fas fa-info-circle"></i>
+                        <span class="tooltip-text">Generate a shared secret and corresponding ciphertext using the public key</span>
+                    </div>
+                </div>
+                
+                <div class="panel-body">
+                    <button id="encapsulate" class="action-btn btn-primary" disabled>
+                        <i class="fas fa-lock me-2"></i>Encapsulate Key
+                    </button>
+                    
+                    <div class="encap-output mt-4" id="encap-output" style="display: none;">
+                        <div class="mb-3">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <label for="ciphertext" class="field-label">
+                                <i class="fas fa-envelope-open-text me-2"></i>Ciphertext
+                                <small>(Transmit this securely)</small>
+                            </label>
+                            <textarea id="ciphertext" class="key-field" rows="2" readonly></textarea>
+                        </div>
+                        
+                        <div>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <label for="shared-secret-enc" class="field-label">
+                                <i class="fas fa-handshake me-2"></i>Shared Secret
+                                <small>(Your copy)</small>
+                            </label>
+                            <textarea id="shared-secret-enc" class="key-field" rows="1" readonly></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="panel" id="decapsulation-panel">
+                <div class="panel-header">
+                    <div class="panel-icon icon-decrypt">
+                        <i class="fas fa-unlock-alt"></i>
+                    </div>
+                    <h3 class="panel-title">Decapsulation</h3>
+                    <div class="tooltip">
+                        <i class="fas fa-info-circle"></i>
+                        <span class="tooltip-text">Recover the shared secret from the ciphertext using your private key</span>
+                    </div>
+                </div>
+                
+                <div class="panel-body">
+                    <button id="decapsulate" class="action-btn btn-primary" disabled>
+                        <i class="fas fa-unlock-alt me-2"></i>Decapsulate Key
+                    </button>
+                    
+                    <div class="decap-output mt-4" id="decap-output" style="display: none;">
+                        <div>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <label for="shared-secret-dec" class="field-label">
+                                <i class="fas fa-handshake me-2"></i>Recovered Secret
+                            </label>
+                            <textarea id="shared-secret-dec" class="key-field" rows="1" readonly></textarea>
+                        </div>
+                        
+                        <div class="result-container" id="match-result">
+                            <div class="d-flex align-items-center">
+                                <i id="match-icon" class="fas fa-check-circle me-2" style="font-size: 1.25rem;"></i>
+                                <span id="match-text">Waiting for decapsulation...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="panel" id="signing-panel">
+                <div class="panel-header">
+                    <div class="panel-icon icon-sign">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h3 class="panel-title">Message Signing</h3>
+                    <div class="tooltip">
+                        <i class="fas fa-info-circle"></i>
+                        <span class="tooltip-text">Create a cryptographic signature for your message using your private key</span>
+                    </div>
+                </div>
+                
+                <div class="panel-body">
+                    <div class="mb-3">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="message-to-sign" class="field-label">
+                            <i class="fas fa-comment-alt me-2"></i>Message to Sign
+                        </label>
+                        <textarea id="message-to-sign" class="key-field" rows="3" placeholder="Type your message here..."></textarea>
+                    </div>
+                    
+                    <button id="sign-message" class="action-btn btn-primary" disabled>
+                        <i class="fas fa-signature me-2"></i>Sign Message
+                    </button>
+                    
+                    <div class="mt-4" id="signature-output" style="display: none;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <label for="signature" class="field-label">
+                            <i class="fas fa-fingerprint me-2"></i>Digital Signature
+                        </label>
+                        <div class="position-relative">
+                            <textarea id="signature" class="key-field" rows="2" readonly></textarea>
+                            <button class="btn btn-sm position-absolute" style="top: 5px; right: 5px;" onclick="copyToClipboard('signature')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel" id="verification-panel">
+                <div class="panel-header">
+                    <div class="panel-icon icon-verify">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="panel-title">Signature Verification</h3>
+                    <div class="tooltip">
+                        <i class="fas fa-info-circle"></i>
+                        <span class="tooltip-text">Verify that a message was signed by the owner of the corresponding public key</span>
+                    </div>
+                </div>
+                
+                <div class="panel-body">
+                    <button id="verify-signature" class="action-btn btn-primary" disabled>
+                        <i class="fas fa-check-circle me-2"></i>Verify Signature
+                    </button>
+                    
+                    <div class="mt-4" id="verification-output" style="display: none;">
+                        <div class="result-container" id="verification-result">
+                            <div class="d-flex align-items-center">
+                                <i id="verify-icon" class="fas fa-hourglass-half me-2 animate-pulse" style="font-size: 1.25rem;"></i>
+                                <span id="verify-text">Processing verification...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -137,6 +462,9 @@
         
         // Generate key pair
         $('#generate-keys').click(function() {
+            const $this = $(this);
+            $this.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Generating...');
+            
             $.ajax({
                 url: '/api/{{ algo_name.split()[0].lower() }}/generate',
                 type: 'POST',
@@ -151,6 +479,10 @@
                         
                         $('#public-key').val(truncateString(publicKey));
                         $('#private-key').val(truncateString(privateKey));
+                        $('#key-output').slideDown(300);
+                        
+                        $this.html('<i class="fas fa-key me-2"></i>Regenerate Keys');
+                        $this.prop('disabled', false);
                         
                         {% if algo_type == "KEM" %}
                         $('#encapsulate').prop('disabled', false);
@@ -158,11 +490,15 @@
                         $('#sign-message').prop('disabled', false);
                         {% endif %}
                     } else {
-                        alert('Error: ' + response.message);
+                        showError('Error generating keys: ' + response.message);
+                        $this.html('<i class="fas fa-key me-2"></i>Try Again');
+                        $this.prop('disabled', false);
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('Error: ' + error);
+                    showError('Network error: ' + error);
+                    $this.html('<i class="fas fa-key me-2"></i>Try Again');
+                    $this.prop('disabled', false);
                 }
             });
         });
@@ -170,6 +506,9 @@
         {% if algo_type == "KEM" %}
         // Encapsulate
         $('#encapsulate').click(function() {
+            const $this = $(this);
+            $this.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Processing...');
+            
             $.ajax({
                 url: '/api/{{ algo_name.split()[0].lower() }}/encapsulate',
                 type: 'POST',
@@ -188,20 +527,35 @@
                         
                         $('#ciphertext').val(truncateString(ciphertext));
                         $('#shared-secret-enc').val(truncateString(sharedSecretEnc));
+                        $('#encap-output').slideDown(300);
+                        
+                        $this.html('<i class="fas fa-lock me-2"></i>Re-encapsulate');
+                        $this.prop('disabled', false);
                         
                         $('#decapsulate').prop('disabled', false);
                     } else {
-                        alert('Error: ' + response.message);
+                        showError('Error encapsulating: ' + response.message);
+                        $this.html('<i class="fas fa-lock me-2"></i>Try Again');
+                        $this.prop('disabled', false);
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('Error: ' + error);
+                    showError('Network error: ' + error);
+                    $this.html('<i class="fas fa-lock me-2"></i>Try Again');
+                    $this.prop('disabled', false);
                 }
             });
         });
         
         // Decapsulate
         $('#decapsulate').click(function() {
+            const $this = $(this);
+            $this.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Processing...');
+            
+            $('#match-result').removeClass('result-success result-error');
+            $('#match-icon').removeClass('fa-check-circle fa-times-circle').addClass('fa-hourglass-half animate-pulse');
+            $('#match-text').text('Processing decapsulation...');
+            
             $.ajax({
                 url: '/api/{{ algo_name.split()[0].lower() }}/decapsulate',
                 type: 'POST',
@@ -219,19 +573,33 @@
                         const sharedSecretDec = response.shared_secret;
                         
                         $('#shared-secret-dec').val(truncateString(sharedSecretDec));
+                        $('#decap-output').slideDown(300);
                         
                         // Verify that both shared secrets match
+                        $('#match-icon').removeClass('fa-hourglass-half animate-pulse');
+                        
                         if (sharedSecretDec === sharedSecretEnc) {
-                            $('#shared-secret-dec').addClass('bg-success text-white');
+                            $('#match-result').addClass('result-success');
+                            $('#match-icon').addClass('fa-check-circle').css('color', 'var(--success)');
+                            $('#match-text').text('Success! Shared secrets match - secure communication established.');
                         } else {
-                            $('#shared-secret-dec').addClass('bg-danger text-white');
+                            $('#match-result').addClass('result-error');
+                            $('#match-icon').addClass('fa-times-circle').css('color', 'var(--danger)');
+                            $('#match-text').text('Error! Shared secrets do not match - something went wrong.');
                         }
+                        
+                        $this.html('<i class="fas fa-unlock-alt me-2"></i>Decapsulate Again');
+                        $this.prop('disabled', false);
                     } else {
-                        alert('Error: ' + response.message);
+                        showError('Error decapsulating: ' + response.message);
+                        $this.html('<i class="fas fa-unlock-alt me-2"></i>Try Again');
+                        $this.prop('disabled', false);
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('Error: ' + error);
+                    showError('Network error: ' + error);
+                    $this.html('<i class="fas fa-unlock-alt me-2"></i>Try Again');
+                    $this.prop('disabled', false);
                 }
             });
         });
@@ -241,9 +609,12 @@
             const message = $('#message-to-sign').val();
             
             if (!message) {
-                alert('Please enter a message to sign.');
+                showError('Please enter a message to sign.');
                 return;
             }
+            
+            const $this = $(this);
+            $this.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Signing...');
             
             $.ajax({
                 url: '/api/{{ algo_name.split()[0].lower() }}/sign',
@@ -261,13 +632,22 @@
                     if (response.status === 'success') {
                         const signature = response.signature;
                         $('#signature').val(truncateString(signature));
+                        $('#signature-output').slideDown(300);
+                        
+                        $this.html('<i class="fas fa-signature me-2"></i>Sign Message');
+                        $this.prop('disabled', false);
+                        
                         $('#verify-signature').prop('disabled', false);
                     } else {
-                        alert('Error: ' + response.message);
+                        showError('Error signing: ' + response.message);
+                        $this.html('<i class="fas fa-signature me-2"></i>Try Again');
+                        $this.prop('disabled', false);
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('Error: ' + error);
+                    showError('Network error: ' + error);
+                    $this.html('<i class="fas fa-signature me-2"></i>Try Again');
+                    $this.prop('disabled', false);
                 }
             });
         });
@@ -275,6 +655,14 @@
         // Verify signature
         $('#verify-signature').click(function() {
             const message = $('#message-to-sign').val();
+            
+            const $this = $(this);
+            $this.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Verifying...');
+            
+            $('#verification-output').slideDown(300);
+            $('#verification-result').removeClass('result-success result-error');
+            $('#verify-icon').removeClass('fa-check-circle fa-times-circle').addClass('fa-hourglass-half animate-pulse');
+            $('#verify-text').text('Processing verification...');
             
             $.ajax({
                 url: '/api/{{ algo_name.split()[0].lower() }}/verify',
@@ -291,22 +679,40 @@
                 }),
                 success: function(response) {
                     if (response.status === 'success') {
-                        const verificationResult = $('#verification-result');
-                        verificationResult.removeClass('alert-success alert-danger');
+                        $('#verify-icon').removeClass('fa-hourglass-half animate-pulse');
                         
                         if (response.valid) {
-                            verificationResult.addClass('alert-success').text('Signature is VALID');
+                            $('#verification-result').addClass('result-success');
+                            $('#verify-icon').addClass('fa-check-circle').css('color', 'var(--success)');
+                            $('#verify-text').text('Signature is VALID - message authenticity confirmed!');
                         } else {
-                            verificationResult.addClass('alert-danger').text('Signature is INVALID');
+                            $('#verification-result').addClass('result-error');
+                            $('#verify-icon').addClass('fa-times-circle').css('color', 'var(--danger)');
+                            $('#verify-text').text('Signature is INVALID - message may have been tampered with!');
                         }
+                        
+                        $this.html('<i class="fas fa-check-circle me-2"></i>Verify Again');
+                        $this.prop('disabled', false);
                     } else {
-                        alert('Error: ' + response.message);
+                        showError('Error verifying: ' + response.message);
+                        $this.html('<i class="fas fa-check-circle me-2"></i>Try Again');
+                        $this.prop('disabled', false);
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert('Error: ' + error);
+                    showError('Network error: ' + error);
+                    $this.html('<i class="fas fa-check-circle me-2"></i>Try Again');
+                    $this.prop('disabled', false);
                 }
             });
+        });
+        
+        // Update sign button state when message changes
+        $('#message-to-sign').on('input', function() {
+            const message = $(this).val();
+            if (publicKey && privateKey) {
+                $('#sign-message').prop('disabled', !message);
+            }
         });
         {% endif %}
         
@@ -317,6 +723,27 @@
             }
             return str;
         }
+        
+        // Helper function to show errors
+        function showError(message) {
+            alert(message);
+        }
+        
+        // Copy to clipboard function
+        window.copyToClipboard = function(elementId) {
+            const element = document.getElementById(elementId);
+            element.select();
+            document.execCommand('copy');
+            
+            // Show a temporary tooltip
+            const button = $(element).next().find('i');
+            const originalClass = button.attr('class');
+            button.attr('class', 'fas fa-check');
+            
+            setTimeout(function() {
+                button.attr('class', originalClass);
+            }, 1000);
+        };
     });
 </script>
 {% endblock %}

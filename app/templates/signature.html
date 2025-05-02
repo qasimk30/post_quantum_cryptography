@@ -2,14 +2,64 @@
 
 {% block extra_css %}
 <style>
-    .card-header h5 {
-        margin-bottom: 0;
+    .info-card {
+        border-radius: 20px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        margin-bottom: 2.5rem;
     }
-    
+
+    .info-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #2c3e50, #1a252f);
+        color: white;
+        padding: 1rem 1.25rem;
+        border-bottom: none;
+    }
+
     .info-badge {
-        font-size: 0.8rem;
-        padding: 2px 8px;
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #ffc107;
+        color: #212529;
         margin-left: 10px;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .feature-list li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-list li::before {
+        content: '\f058';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #3498db;
+    }
+
+    .alert-custom {
+        border-left: 5px solid #f39c12;
+        background-color: rgba(243, 156, 18, 0.08);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-top: 2rem;
     }
 </style>
 {% endblock %}
@@ -19,25 +69,34 @@
 
 <div class="row mt-4">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-dark text-white">
-                <h5>About Dilithium Signature</h5>
+        <div class="info-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-pen-nib me-2"></i>About Dilithium Signature
+                </h5>
+                <span class="info-badge">NIST Selected</span>
             </div>
             <div class="card-body">
-                <p>Dilithium is a lattice-based digital signature scheme that is one of the finalists in the NIST Post-Quantum Cryptography standardization process.</p>
+                <p class="mb-4">Dilithium is a lattice-based digital signature scheme selected by NIST as part of the post-quantum cryptography standardization process.</p>
                 
-                <h6>Key Features:</h6>
-                <ul>
+                <h6 class="fw-semibold"><i class="fas fa-star me-2"></i>Key Features:</h6>
+                <ul class="feature-list">
                     <li><strong>Security basis:</strong> Based on the hardness of the Module Learning With Errors (MLWE) problem</li>
-                    <li><strong>Performance:</strong> Offers a good balance between signature size, key size, and computational efficiency</li>
-                    <li><strong>Variants:</strong> Available in multiple security levels (Dilithium2, Dilithium3, Dilithium5)</li>
+                    <li><strong>Performance:</strong> Good balance between signature size, key size, and computational efficiency</li>
+                    <li><strong>Variants:</strong> Supports Dilithium2, Dilithium3, Dilithium5</li>
                     <li><strong>Status:</strong> Selected by NIST for standardization</li>
                 </ul>
                 
-                <p>In this demo, we're using the Dilithium2 variant from the pqcrypto Python package.</p>
+                <p class="mt-3">In this demo, we're using the Dilithium2 variant from the <code>pqcrypto</code> Python package.</p>
                 
-                <div class="alert alert-warning">
-                    <strong>Security Note:</strong> Like all cryptographic algorithms, Dilithium's security depends on proper implementation and parameter selection.
+                <div class="alert-custom d-flex align-items-start">
+                    <div class="me-3">
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                    </div>
+                    <div>
+                        <strong>Security Note:</strong>
+                        <p class="mb-0 small">Like all cryptographic algorithms, Dilithium's security depends on proper implementation and parameter selection. Stay updated with cryptographic guidance and best practices.</p>
+                    </div>
                 </div>
             </div>
         </div>
